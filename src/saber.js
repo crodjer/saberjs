@@ -1,8 +1,12 @@
+/*globals Saber:true*/
+
+'use strict';
+
 var Saber = {};
 
 Saber.DataSource = function DataSource() {
-  that = {
+  var that = {
   };
 
   return that;
-}
+};
