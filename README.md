@@ -1,8 +1,9 @@
 SaberJS
 =======
 
-A JavaScript library to process data in the browser. Filter, sort, aggregate, group, and slice data. Data processing can switch seamlessly from server to client. 
+A JavaScript library to process data in the browser. Filter, sort, aggregate, group, and slice data. Data processing can switch seamlessly from server to client.
 
+[![Build Status](https://secure.travis-ci.org/RazorFlow/saberjs.png?branch=master)](https://travis-ci.org/RazorFlow/saberjs)
 
 ## Development
 Unit tests:
