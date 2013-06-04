@@ -107,6 +107,15 @@ module.exports = function (grunt) {
           'karma:unit:run'
         ]
       }
+    },
+
+    shell: {
+      coveralls: {
+        command: 'cat "`find .coverage/ -iname lcov.info | head`" | ./node_modules/coveralls/bin/coveralls.js',
+        options: {
+          stdout: true
+        }
+      }
     }
 
   });
@@ -115,6 +124,7 @@ module.exports = function (grunt) {
   grunt.loadNpmTasks('grunt-contrib-jshint');
   grunt.loadNpmTasks('grunt-contrib-watch');
   grunt.loadNpmTasks('grunt-contrib-concat');
+  grunt.loadNpmTasks('grunt-shell');
   grunt.loadNpmTasks('grunt-karma');
 
   grunt.registerTask('default', [

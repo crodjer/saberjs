@@ -13,12 +13,21 @@ files = [
   'test/unit/**/*.js'
 ];
 
+preprocessors = {
+  'src/**/*.js': 'coverage'
+};
+
 // list of files to exclude
 exclude = [];
 
+coverageReporter = {
+  type : 'lcov',
+  dir : '.coverage/',
+}
+
 // test results reporter to use
 // possible values: dots || progress || growl
-reporters = ['progress'];
+reporters = ['progress', 'coverage'];
 
 // web server port
 port = 8080;
