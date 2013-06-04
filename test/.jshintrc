@@ -18,7 +18,9 @@
   "strict": true,
   "trailing": true,
   "smarttabs": true,
+  "debug": true,
   "globals": {
+    "Saber": true,
     "expect": false,
     "it": false,
     "describe": false

@@ -1,7 +1,7 @@
 'use strict';
 
 describe('core tests', function () {
-  it('should be run', function () {
-    expect(true).toBe(true);
+  it('should provide Saber object', function () {
+    expect(typeof Saber).toBe('object');
   });
 });

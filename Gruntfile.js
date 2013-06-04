@@ -86,14 +86,14 @@ module.exports = function (grunt) {
 
     watch: {
       grunt: {
-        files: ['Gruntfile.js'],
+        files: ['Gruntfile.js', '.jshintrc'],
         tasks: [
           'jshint:grunt',
         ]
       },
 
       source: {
-        files: ['src/**/*.js'],
+        files: ['src/**/*.js', 'src/.jshintrc'],
         tasks: [
           'jshint:source',
           'karma:unit:run'
@@ -101,7 +101,7 @@ module.exports = function (grunt) {
       },
 
       tests: {
-        files: ['test/**/*.js'],
+        files: ['test/**/*.js', 'test/.jshintrc'],
         tasks: [
           'jshint:tests',
           'karma:unit:run'
