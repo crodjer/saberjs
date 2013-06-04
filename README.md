@@ -13,7 +13,7 @@ grunt karma:unit
 
 Watching for changes:
 ```
-grunt karma:unit watch
+grunt forever
 ```
 
 Jshint:

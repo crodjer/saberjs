@@ -83,6 +83,11 @@ module.exports = function (grunt) {
     'uglify'
   ]);
 
+  grunt.registerTask('forever', [
+    'karma:unit',
+    'watch',
+  ]);
+
   grunt.registerTask('test-travis', [
     'jshint',
     'karma:continuous',
