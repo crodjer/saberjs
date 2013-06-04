@@ -1,6 +1,7 @@
 {
   "name": "saber",
   "version": "0.0.1",
+  "description": "A JavaScript library to process data in the browser. Filter, sort, aggregate, group, and slice data. Data processing can switch seamlessly from server to client.",
   "devDependencies": {
     "grunt": "~0.4.1",
     "grunt-contrib-jshint": "~0.6.0",

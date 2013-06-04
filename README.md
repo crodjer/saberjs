@@ -1,7 +1,7 @@
-saberjs
+SaberJS
 =======
 
-saberjs
+A JavaScript library to process data in the browser. Filter, sort, aggregate, group, and slice data. Data processing can switch seamlessly from server to client. 
 
 
 ## Development
