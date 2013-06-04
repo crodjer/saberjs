@@ -18,7 +18,7 @@ preprocessors = {
 };
 
 // list of files to exclude
-exclude = [];
+exclude = ['src/intro.js', 'src/outro.js'];
 
 coverageReporter = {
   type : 'lcov',

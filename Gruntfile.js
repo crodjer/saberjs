@@ -1,6 +1,8 @@
 'use strict';
 
 module.exports = function (grunt) {
+  var closurePads = ['src/intro.js', 'src/outro.js'];
+
 
   grunt.initConfig({
     pkg: grunt.file.readJSON('package.json'),
@@ -9,7 +11,8 @@ module.exports = function (grunt) {
       source: {
         src: ['src/**/*.js'],
         options: {
-          jshintrc: 'src/.jshintrc'
+          jshintrc: 'src/.jshintrc',
+          ignores: closurePads
         }
       },
 
@@ -42,16 +45,23 @@ module.exports = function (grunt) {
           '<%= grunt.template.today("yyyy-mm-dd") %> */\n' +
           '\'use strict\';\n',
         process: function(src, filepath) {
-          return '// Source: ' + filepath + '\n' +
-            src.replace(/(^|\n)[ \t]*('use strict'|"use strict");?\s*/g, '$1');
+          var output = '// Source: ' + filepath + '\n' + src;
+          output = output.replace(/(^|\n)[ \t]*('use strict'|"use strict");?\s*/g, '$1');
+          if (closurePads.indexOf(filepath) === -1) {
+            output = output.replace(/(^|\n)(.+)/g, '$1  $2');
+          }
+
+          return output;
         },
       },
 
       dist: {
         src: [
+          'src/intro.js',
           'src/core.js',
           'src/data-source.js',
-          'src/export.js',
+          'src/exports.js',
+          'src/outro.js',
         ],
         dest: 'dist/<%= pkg.name %>.js'
       }
@@ -74,6 +84,11 @@ module.exports = function (grunt) {
       },
 
       unit: {
+        singleRun: true,
+        autoWatch: false,
+      },
+
+      background: {
         autoWatch: false,
         background: true
       },
@@ -105,7 +120,7 @@ module.exports = function (grunt) {
         files: ['test/**/*.js', 'test/.jshintrc'],
         tasks: [
           'jshint:tests',
-          'karma:unit:run'
+          'karma:background:run'
         ]
       }
     },
