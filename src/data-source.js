@@ -1,7 +1,9 @@
 'use strict';
 
-Saber.DataSource = function DataSource () {
-  var that = {};
+Saber.DataSource = function DataSource (data) {
+  var that = {
+    data: data
+  };
 
   return that;
 };
