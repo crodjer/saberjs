@@ -6,29 +6,24 @@ module.exports = function (grunt) {
     pkg: grunt.file.readJSON('package.json'),
 
     jshint: {
-      all: ['Gruntfile.js', 'src/**/*.js', 'test/**/*.js'],
-      options: {
-        node: true,
-        browser: true,
-        esnext: true,
-        bitwise: true,
-        camelcase: true,
-        curly: true,
-        eqeqeq: true,
-        immed: true,
-        indent: 2,
-        latedef: true,
-        newcap: true,
-        noarg: true,
-        quotmark: 'single',
-        regexp: true,
-        undef: true,
-        unused: true,
-        strict: true,
-        trailing: true,
-        smarttabs: true,
-        globals: {
-          'Saber': false,
+      source: {
+        src: ['src/**/*.js'],
+        options: {
+          jshintrc: 'src/.jshintrc'
+        }
+      },
+
+      grunt: {
+        src: ['Gruntfile.js'],
+        options: {
+          jshintrc: '.jshintrc'
+        }
+      },
+
+      tests: {
+        src: ['test/**/*.js'],
+        options: {
+          jshintrc: 'test/.jshintrc'
         }
       }
     },
@@ -38,8 +33,13 @@ module.exports = function (grunt) {
         banner: '/*! <%= pkg.name %> <%= grunt.template.today("yyyy-mm-dd") %> */\n'
       },
       build: {
-        src: 'src/<%= pkg.name %>.js',
-        dest: 'dist/<%= pkg.name %>.min.js'
+        all: {
+          src: [
+            'src/core.js',
+            'src/data-source.js',
+          ],
+          dest: 'dist/<%= pkg.name %>.min.js'
+        }
       }
     },
 
@@ -65,6 +65,8 @@ module.exports = function (grunt) {
       karma: {
         files: ['src/**/*.js', 'test/**/*.js'],
         tasks: [
+          'jshint:source',
+          'jshint:test',
           'karma:unit:run'
         ]
       }
@@ -91,5 +93,6 @@ module.exports = function (grunt) {
   grunt.registerTask('test-travis', [
     'jshint',
     'karma:continuous',
+    'uglify'
   ]);
 };
