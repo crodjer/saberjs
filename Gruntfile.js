@@ -13,6 +13,13 @@ module.exports = function (grunt) {
         }
       },
 
+      dist: {
+        src: ['dist/<%= pkg.name %>.js'],
+        options: {
+          jshintrc: 'src/.jshintrc'
+        }
+      },
+
       grunt: {
         src: ['Gruntfile.js'],
         options: {
@@ -28,19 +35,35 @@ module.exports = function (grunt) {
       }
     },
 
+    concat: {
+      options: {
+        stripBanners: true,
+        banner: '/*! <%= pkg.name %> - v<%= pkg.version %> - ' +
+          '<%= grunt.template.today("yyyy-mm-dd") %> */\n' +
+          '\'use strict\';\n',
+        process: function(src, filepath) {
+          return '// Source: ' + filepath + '\n' +
+            src.replace(/(^|\n)[ \t]*('use strict'|"use strict");?\s*/g, '$1');
+        },
+      },
+
+      dist: {
+        src: [
+          'src/core.js',
+          'src/data-source.js',
+        ],
+        dest: 'dist/<%= pkg.name %>.js'
+      }
+    },
+
     uglify: {
+      all: {
+        files: 'dist/<%= pkg.name %>.min.js',
+      },
+
       options: {
         banner: '/*! <%= pkg.name %> <%= grunt.template.today("yyyy-mm-dd") %> */\n'
       },
-      build: {
-        all: {
-          src: [
-            'src/core.js',
-            'src/data-source.js',
-          ],
-          dest: 'dist/<%= pkg.name %>.min.js'
-        }
-      }
     },
 
     karma: {
@@ -62,11 +85,25 @@ module.exports = function (grunt) {
     },
 
     watch: {
-      karma: {
-        files: ['src/**/*.js', 'test/**/*.js'],
+      grunt: {
+        files: ['Gruntfile.js'],
+        tasks: [
+          'jshint:grunt',
+        ]
+      },
+
+      source: {
+        files: ['src/**/*.js'],
         tasks: [
           'jshint:source',
-          'jshint:test',
+          'karma:unit:run'
+        ]
+      },
+
+      tests: {
+        files: ['test/**/*.js'],
+        tasks: [
+          'jshint:tests',
           'karma:unit:run'
         ]
       }
@@ -77,9 +114,11 @@ module.exports = function (grunt) {
   grunt.loadNpmTasks('grunt-contrib-uglify');
   grunt.loadNpmTasks('grunt-contrib-jshint');
   grunt.loadNpmTasks('grunt-contrib-watch');
+  grunt.loadNpmTasks('grunt-contrib-concat');
   grunt.loadNpmTasks('grunt-karma');
 
   grunt.registerTask('default', [
+    'concat',
     'jshint',
     'karma:unit',
     'uglify'
@@ -91,6 +130,7 @@ module.exports = function (grunt) {
   ]);
 
   grunt.registerTask('test-travis', [
+    'concat',
     'jshint',
     'karma:continuous',
     'uglify'

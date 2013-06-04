@@ -3,5 +3,3 @@
 
 var Saber = {
 };
-
-Saber.test = 1;

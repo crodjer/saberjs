@@ -9,8 +9,8 @@ files = [
   JASMINE_ADAPTER,
   'src/*.js',
   'src/**/*.js',
-  'test/spec/*.js',
-  'test/spec/**/*.js'
+  'test/unit/*.js',
+  'test/unit/**/*.js'
 ];
 
 // list of files to exclude
