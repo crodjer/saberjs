@@ -6,8 +6,4 @@ describe('core tests', function () {
     expect(typeof Saber).toBe('object');
   });
 
-  it('should provide a Errors object under Saber', function () {
-    expect(typeof Saber.Errors).toBe('object');
-  });
-
 });
