@@ -1,5 +1,13 @@
-/*jshint unused:false*/
 'use strict';
 
-var Saber = {
-};
+/*jshint unused:false*/
+var Saber = (function SaberContructor () {
+  /*jshint unused:true*/
+
+  var Errors = {
+  };
+
+  return {
+    Errors: Errors,
+  };
+}());

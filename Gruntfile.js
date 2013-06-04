@@ -51,6 +51,7 @@ module.exports = function (grunt) {
         src: [
           'src/core.js',
           'src/data-source.js',
+          'src/export.js',
         ],
         dest: 'dist/<%= pkg.name %>.js'
       }
