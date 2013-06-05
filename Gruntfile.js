@@ -60,6 +60,8 @@ module.exports = function (grunt) {
           'src/intro.js',
           'src/deps/utils.js',
           'src/core.js',
+          'src/fields.js',
+          'src/model.js',
           'src/data-source.js',
           'src/exports.js',
           'src/outro.js',

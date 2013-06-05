@@ -22,6 +22,7 @@
   "globals": {
     "Saber": false,
     "Utils": false,
+    "Model": false,
     "expect": false,
     "it": false,
     "describe": false
