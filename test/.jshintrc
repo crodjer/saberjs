@@ -20,7 +20,8 @@
   "smarttabs": true,
   "debug": true,
   "globals": {
-    "Saber": true,
+    "Saber": false,
+    "Utils": false,
     "expect": false,
     "it": false,
     "describe": false
