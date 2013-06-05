@@ -14,9 +14,6 @@ Field.prototype.parse = function parse() {
   this.parsed = this.parser(this.value, this.typeData);
   return this.parsed;
 };
-Field.prototype.toString = function toString() {
-  return this.constructor.name + ': ' + this.parsed;
-};
 
 var IntegerField = function IntegerField(name, value, typeData) {
   this.name = name;
