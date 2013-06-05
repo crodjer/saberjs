@@ -1,6 +1,23 @@
 'use strict';
 
-describe('data source tests', function () {
+describe('data source', function () {
+
+  var fixture = {
+    data: [
+      {name: 'Foo', age: 23},
+      {name: 'Bar', age: '25'},
+      {name: 'FooBar', age: 21},
+    ],
+    expected: [
+      {name: 'Foo', age: 23},
+      {name: 'Bar', age: 25},
+      {name: 'FooBar', age: 21},
+    ],
+    schema: {
+      name: {'type': 'string'},
+      age: {'type': 'integer'}
+    }
+  };
 
   it('should provide DataSource constructor', function () {
     var source = new Saber.DataSource([], {});
@@ -10,27 +27,25 @@ describe('data source tests', function () {
   });
 
   it('should provide exact copy of the source', function () {
-    var data = [
-      {name: 'Foo', age: 23},
-      {name: 'Bar', age: '25'},
-      {name: 'FooBar', age: 21},
-    ];
 
-    var schema = {
-      name: {'type': 'string'},
-      age: {'type': 'integer'}
-    };
+    var source = new Saber.DataSource(fixture.data, fixture.schema);
 
-    var source = new Saber.DataSource(data, schema);
-
-    expect(source._data).toBe(data);
-    expect(source.parsed.length).toBe(data.length);
+    expect(source._data).toBe(fixture.data);
+    expect(source.parsed.length).toBe(fixture.data.length);
 
     Utils.each(source.parsed, function(entry, index) {
-      var testModel = new Model(entry._data, schema);
+      expect(fixture.data[index]).toEqual(entry._data);
+      expect(entry.attributes).toEqual(fixture.expected[index]);
+    });
+  });
 
-      expect(data[index]).toEqual(entry._data);
-      expect(entry.attributes).toEqual(testModel.attributes);
+  it('should provide a way to get attribute values', function () {
+    var source = new Saber.DataSource(fixture.data, fixture.schema);
+
+    Utils.each(source.parsed, function(model, index) {
+      Utils.each(fixture.data, function (value, key) {
+        expect(model.get(key)).toEqual(fixture.expected[index][key]);
+      });
     });
   });
 

@@ -27,7 +27,7 @@ coverageReporter = {
 
 // test results reporter to use
 // possible values: dots || progress || growl
-reporters = ['progress', 'coverage'];
+reporters = ['dots', 'coverage'];
 
 // web server port
 port = 8080;

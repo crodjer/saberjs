@@ -91,6 +91,15 @@ module.exports = function (grunt) {
         autoWatch: false,
       },
 
+      dist: {
+        autoWatch: false,
+        singleRun: true,
+
+        options: {
+          configFile: 'karma-dist.conf.js'
+        }
+      },
+
       background: {
         autoWatch: false,
         background: true
@@ -150,7 +159,7 @@ module.exports = function (grunt) {
     'concat',
     'jshint',
     'karma:unit',
-    'uglify'
+    'karma:dist'
   ]);
 
   grunt.registerTask('forever', [
@@ -162,6 +171,7 @@ module.exports = function (grunt) {
     'concat',
     'jshint',
     'karma:continuous',
+    'karma:dist',
     'uglify'
   ]);
 };

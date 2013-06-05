@@ -1,6 +1,6 @@
 'use strict';
 
-describe('model tests', function () {
+describe('model', function () {
 
   // Reused test data
   var fixture = {
@@ -31,7 +31,7 @@ describe('model tests', function () {
     expect(typeof Model).toBe('function');
   });
 
-  it('should provide Model constructor', function () {
+  it('should provide proper fields', function () {
 
     var model = new Model(fixture.data, fixture.schema);
 

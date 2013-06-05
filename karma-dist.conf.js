@@ -5,17 +5,19 @@ basePath = '';
 
 // list of files / patterns to load in the browser
 files = [
-  ANGULAR_SCENARIO,
-  ANGULAR_SCENARIO_ADAPTER,
-  'test/e2e/**/*.js'
+  JASMINE,
+  JASMINE_ADAPTER,
+  'src/deps/utils.js',
+  'dist/saber.js',
+  'test/**/*.js'
 ];
 
 // list of files to exclude
-exclude = [];
+exclude = ['test/unit/model.js'];
 
 // test results reporter to use
 // possible values: dots || progress || growl
-reporters = ['progress'];
+reporters = ['dots'];
 
 // web server port
 port = 8080;

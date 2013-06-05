@@ -1,9 +1,11 @@
 'use strict';
 
-describe('core tests', function () {
+describe('saber', function () {
 
-  it('should provide Saber object', function () {
-    expect(typeof Saber).toBe('object');
+  it('should expose Saber object', function () {
+    var type = typeof Saber;
+
+    expect(type).toBe('object');
   });
 
 });
