@@ -20,9 +20,7 @@ Saber.QuerySet = function QuerySet(source) {
 
     // Setting error object to be null currently
     source.process(null, function (err, models) {
-      callback.call(that, err, models.map(function(model) {
-        return model.attributes;
-      }));
+      callback.call(that, err, models);
     });
   };
 

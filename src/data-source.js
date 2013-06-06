@@ -2,8 +2,6 @@
 
 Saber.DataSource = function DataSource (data, schema, options) {
 
-  var models;
-
   // Currently unused
   options = Utils.extend({
   }, options);
@@ -13,21 +11,31 @@ Saber.DataSource = function DataSource (data, schema, options) {
     schema: schema
   };
 
-  function parse() {
-    return Utils.map(data, function (entry) {
-      return new Model(entry, schema);
+  /* Parse each of entry through the schema.
+   */
+  var parse = function parse(callback) {
+
+    var models = Utils.map(data, function (model) {
+      var attributes = {};
+
+      Utils.each(schema, function (typeData, name){
+
+        var field = new Fields[typeData.type](name, model[name], typeData);
+        attributes[name] = field.parse();
+      });
+
+      return attributes;
     });
-  }
-
-  that.process = function process(err, callback) {
-    /* Do async processing in future
-     */
-
-    if (!models) {
-      models = parse();
-    }
 
     callback.call(this, null, models);
+  };
+
+  that.process = function process(err, callback) {
+    // Do async processing in future
+
+    parse(function(err, models) {
+      callback.call(this, null, models);
+    });
   };
 
   that.query = function query(callback) {

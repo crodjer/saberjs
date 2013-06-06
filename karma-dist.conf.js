@@ -13,7 +13,7 @@ files = [
 ];
 
 // list of files to exclude
-exclude = ['test/unit/model.js'];
+exclude = [];
 
 // test results reporter to use
 // possible values: dots || progress || growl
