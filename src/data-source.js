@@ -2,7 +2,7 @@
 
 Saber.DataSource = function DataSource (data, schema, options) {
 
-  var parsed;
+  var models;
 
   // Currently unused
   options = Utils.extend({
@@ -19,18 +19,28 @@ Saber.DataSource = function DataSource (data, schema, options) {
     });
   }
 
-  that.process = function process(callback) {
-    if (!parsed) {
-      parsed = parse();
+  that.process = function process(err, callback) {
+    /* Do async processing in future
+     */
+
+    if (!models) {
+      models = parse();
     }
 
+    callback.call(this, null, models);
+  };
+
+  that.query = function query(callback) {
+
+    // Creating a query set for this data source
+    var querySet = new Saber.QuerySet(this);
     /* Right now, error object will be null. As we don't have sources
        yet. Possible ones:
        - Network.
        - Invalid Schema.
        - Model not following the schema.
     */
-    callback.call(this, null, parsed);
+    callback.call(this, null, querySet);
   };
 
   return that;

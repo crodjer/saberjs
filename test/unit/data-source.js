@@ -26,32 +26,30 @@ describe('data source', function () {
     expect(typeof source).toBe('object');
   });
 
-  it('should provide exact copy of the source', function () {
+  it('should give me back a query set', function () {
+    var source = new Saber.DataSource(fixture.data, fixture.schema);
+    source.query(function (err, querySet) {
+      expect(typeof querySet).toBe('object');
 
+      querySet.execute(function (err, models) {
+        expect(typeof models.length).toBe('number');
+      });
+    });
+  });
+
+  it('should provide exact copy of the source', function () {
     var source = new Saber.DataSource(fixture.data, fixture.schema);
 
     expect(source._data).toBe(fixture.data);
 
-    source.process(function (err, parsed) {
-      expect(parsed.length).toBe(fixture.data.length);
+    source.query(function (err, querySet) {
+      querySet.execute(function (err, models) {
+        expect(models.length).toBe(fixture.data.length);
 
-      Utils.each(parsed, function(entry, index) {
-        expect(fixture.data[index]).toEqual(entry._data);
-        expect(entry.attributes).toEqual(fixture.expected[index]);
-      });
-    });
-  });
-
-  it('should provide a way to get attribute values', function () {
-    var source = new Saber.DataSource(fixture.data, fixture.schema);
-
-    source.process(function (err, parsed) {
-      Utils.each(parsed, function(model, index) {
-        Utils.each(fixture.data, function (value, key) {
-          expect(model.get(key)).toEqual(fixture.expected[index][key]);
+        Utils.each(models, function(model, index) {
+          expect(model).toEqual(fixture.expected[index]);
         });
       });
     });
   });
-
 });
