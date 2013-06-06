@@ -163,7 +163,7 @@ module.exports = function (grunt) {
   ]);
 
   grunt.registerTask('forever', [
-    'karma:unit',
+    'karma:background',
     'watch',
   ]);
 
