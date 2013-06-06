@@ -4,18 +4,19 @@ describe('data source', function () {
 
   var fixture = {
     data: [
-      {name: 'Foo', age: 23},
-      {name: 'Bar', age: '25'},
-      {name: 'FooBar', age: 21},
+      {name: 'Foo', age: 23, foo: ''},
+      {name: 'Bar', age: '25', foo: {}},
+      {name: 'FooBar', age: 21, foo: []},
     ],
     expected: [
-      {name: 'Foo', age: 23},
-      {name: 'Bar', age: 25},
-      {name: 'FooBar', age: 21},
+      {name: 'Foo', age: 23, foo: ''},
+      {name: 'Bar', age: 25, foo: {}},
+      {name: 'FooBar', age: 21, foo: []},
     ],
     schema: {
       name: {'type': 'string'},
-      age: {'type': 'integer'}
+      age: {'type': 'integer'},
+      foo: {'type': 'nonexistant'}
     }
   };
 

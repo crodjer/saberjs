@@ -19,9 +19,11 @@ Saber.DataSource = function DataSource (data, schema, options) {
       var attributes = {};
 
       Utils.each(schema, function (typeData, name){
+        // Get the relevant parser or use the default identity parser
+        var parser = Saber.Parser[typeData.type] || Saber.Parser.identity;
 
-        var field = new Fields[typeData.type](name, model[name], typeData);
-        attributes[name] = field.parse();
+        // Store the parsed value in a hash
+        attributes[name] = parser(model[name], typeData);
       });
 
       return attributes;
