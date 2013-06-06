@@ -31,20 +31,25 @@ describe('data source', function () {
     var source = new Saber.DataSource(fixture.data, fixture.schema);
 
     expect(source._data).toBe(fixture.data);
-    expect(source.parsed.length).toBe(fixture.data.length);
 
-    Utils.each(source.parsed, function(entry, index) {
-      expect(fixture.data[index]).toEqual(entry._data);
-      expect(entry.attributes).toEqual(fixture.expected[index]);
+    source.process(function (err, parsed) {
+      expect(parsed.length).toBe(fixture.data.length);
+
+      Utils.each(parsed, function(entry, index) {
+        expect(fixture.data[index]).toEqual(entry._data);
+        expect(entry.attributes).toEqual(fixture.expected[index]);
+      });
     });
   });
 
   it('should provide a way to get attribute values', function () {
     var source = new Saber.DataSource(fixture.data, fixture.schema);
 
-    Utils.each(source.parsed, function(model, index) {
-      Utils.each(fixture.data, function (value, key) {
-        expect(model.get(key)).toEqual(fixture.expected[index][key]);
+    source.process(function (err, parsed) {
+      Utils.each(parsed, function(model, index) {
+        Utils.each(fixture.data, function (value, key) {
+          expect(model.get(key)).toEqual(fixture.expected[index][key]);
+        });
       });
     });
   });
