@@ -30,14 +30,44 @@ describe('data source', function () {
   });
 
   it('should provide exact copy of the source', function () {
-    expect(source._data).toBe(fixture.data);
-
     source.query(function (err, querySet) {
       querySet.execute(function (err, models) {
         expect(models.length).toBe(fixture.data.length);
 
         Utils.each(models, function(model, index) {
           expect(model).toEqual(fixture.expected[index]);
+        });
+      });
+    });
+  });
+
+  it('should allow for sorting of data', function () {
+    var expected = Utils.sortBy(fixture.expected, function(entry) {
+      return entry.age;
+    });
+
+    // Simple sort just by key
+    source.query(function (err, querySet) {
+      querySet.sort('age')
+        .execute(function (err, models) {
+          expect(models.length).toBe(fixture.data.length);
+
+          Utils.each(models, function(model, index) {
+            expect(model).toEqual(expected[index]);
+          });
+        });
+    });
+
+    // Try a descending sort now.
+    expected.reverse();
+    source.query(function (err, querySet) {
+      querySet.sort(function (model) {
+        return -model.age;
+      }).execute(function (err, models) {
+
+        expect(models.length).toBe(fixture.data.length);
+        Utils.each(models, function(model, index) {
+          expect(model).toEqual(expected[index]);
         });
       });
     });

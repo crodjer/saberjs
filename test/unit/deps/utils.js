@@ -69,4 +69,56 @@ describe('Utils tests', function () {
     expect(extended).toEqual(expected);
 
   });
+
+  it('should provide `pluck` as a function', function () {
+    expect(typeof Utils.extend).toBe('function');
+
+    var objectArray = [{
+      value: 3,
+    }, {
+      value: 1,
+    }, {
+      value: 4,
+    }, {
+      value: 2,
+    }];
+    var pluckedArray = [3, 1, 4, 2];
+
+    expect(Utils.pluck(objectArray, 'value')).toEqual(pluckedArray);
+  });
+
+  it('should provide `sortBy` as a function', function () {
+    expect(typeof Utils.extend).toBe('function');
+
+    var simpleArray = [1, 6, 3, 5, 9, 7, 2, 4, 8];
+    var sortedSimpleArray = [1, 2, 3, 4, 5, 6, 7, 8, 9];
+
+    var objectArray = [{
+      value: 3,
+    }, {
+      value: 1,
+    }, {
+      value: 4,
+    }, {
+      value: 2,
+    }];
+    var sortedObjectArray = [{
+      value: 4,
+    }, {
+      value: 3,
+    }, {
+      value: 2,
+    }, {
+      value: 1,
+    }];
+
+    expect(Utils.sortBy(simpleArray, function(entry) {
+      return entry;
+    })).toEqual(sortedSimpleArray);
+
+    expect(Utils.sortBy(objectArray, function(entry) {
+      return (-entry.value);
+    })).toEqual(sortedObjectArray);
+
+  });
 });

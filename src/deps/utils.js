@@ -4,7 +4,7 @@ var Utils = {};
 
 /* Borrowing from underscore.js */
 /* TODO: Use lodash instead*/
-Utils.each = function each(obj, iterator, context) {
+var each = Utils.each = function each(obj, iterator, context) {
   if (obj.length === +obj.length) {
     for (var i = 0, l = obj.length; i < l; i++) {
       iterator.call(context, obj[i], i, obj);
@@ -18,9 +18,9 @@ Utils.each = function each(obj, iterator, context) {
   }
 };
 
-Utils.map = function map(obj, iterator, context) {
+var map = Utils.map = function map(obj, iterator, context) {
   var results = [];
-  Utils.each(obj, function(value, index, list) {
+  each(obj, function(value, index, list) {
     results[results.length] = iterator.call(context, value, index, list);
   });
 
@@ -36,6 +36,32 @@ Utils.extend = function(obj) {
     }
   });
   return obj;
+};
+
+var pluck = Utils.pluck = function(obj, key) {
+  return map(obj, function(value){ return value[key]; });
+};
+// Sort the object's values by a criterion produced by an iterator.
+Utils.sortBy = function(obj, iterator, context) {
+  return pluck(map(obj, function(value, index, list) {
+    return {
+      value : value,
+      index : index,
+      criteria : iterator.call(context, value, index, list)
+    };
+  }).sort(function(left, right) {
+    var a = left.criteria;
+    var b = right.criteria;
+    if (a !== b) {
+      if (a > b || a === void 0) {
+        return 1;
+      }
+      if (a < b || b === void 0) {
+        return -1;
+      }
+    }
+    return left.index < right.index ? -1 : 1;
+  }), 'value');
 };
 
 /* Done borrowing from underscore.js */
