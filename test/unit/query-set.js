@@ -2,6 +2,7 @@
 
 describe('data source', function () {
 
+  var source;
   var fixture = {
     data: [
       {name: 'Foo', age: 23, foo: ''},
@@ -20,20 +21,24 @@ describe('data source', function () {
     }
   };
 
-  it('should provide DataSource constructor', function () {
-    var source = new Saber.DataSource([], {});
-
-    expect(typeof Saber.DataSource).toBe('function');
-    expect(typeof source).toBe('object');
+  beforeEach(function() {
+    source = new Saber.DataSource(fixture.data, fixture.schema);
   });
 
-  it('should give me back a query set', function () {
-    var source = new Saber.DataSource(fixture.data, fixture.schema);
-    source.query(function (err, querySet) {
-      expect(typeof querySet).toBe('object');
+  it('should provide QuerySet constructor', function () {
+    expect(typeof Saber.QuerySet).toBe('function');
+  });
 
+  it('should provide exact copy of the source', function () {
+    expect(source._data).toBe(fixture.data);
+
+    source.query(function (err, querySet) {
       querySet.execute(function (err, models) {
-        expect(typeof models.length).toBe('number');
+        expect(models.length).toBe(fixture.data.length);
+
+        Utils.each(models, function(model, index) {
+          expect(model).toEqual(fixture.expected[index]);
+        });
       });
     });
   });
