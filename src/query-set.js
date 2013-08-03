@@ -16,12 +16,27 @@ Saber.QuerySet = function QuerySet(source) {
   };
 
   var actions = that.actions = {};
-  var addAction = that.addAction = function(name, processor) {
+  var addAction = that.addAction = function(name, processor, options) {
     var entries = [];
+    options = Utils.extend({}, options);
+
+    var process = function process(models) {
+      // This means that the processor itself will need all action
+      // entries at once.
+      if (options.batchProcessor) {
+        models = processor(models, entries);
+      } else {
+        Utils.each(entries, function(entry) {
+          models = processor(models, entry);
+        });
+      }
+
+      return models;
+    };
 
     actions[name] = {
-      processor: processor,
-      entries: entries
+      process: process,
+      options: options
     };
 
     that[name] = function() {
@@ -49,7 +64,6 @@ Saber.QuerySet = function QuerySet(source) {
     'sort'
   ];
 
-
   that.execute = function execute(callback) {
     // Just give back the source for now, with no
     // errors
@@ -60,10 +74,7 @@ Saber.QuerySet = function QuerySet(source) {
     source.process(null, function (err, models) {
       Utils.each(actionsExOrder, function (actionName) {
         var action = actions[actionName];
-
-        Utils.each(action.entries, function (entry){
-          models = action.processor(models, entry);
-        });
+        models = action.process(models);
       });
 
       callback.call(that, err, models);
