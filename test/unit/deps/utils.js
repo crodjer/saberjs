@@ -2,6 +2,12 @@
 
 describe('Utils tests', function () {
 
+  function wrapInObject (value) {
+    return {
+      value: value
+    };
+  }
+
   it('should provide `Utils` as a object', function () {
     expect(typeof Utils).toBe('object');
   });
@@ -93,24 +99,10 @@ describe('Utils tests', function () {
     var simpleArray = [1, 6, 3, 5, 9, 7, 2, 4, 8];
     var sortedSimpleArray = [1, 2, 3, 4, 5, 6, 7, 8, 9];
 
-    var objectArray = [{
-      value: 3,
-    }, {
-      value: 1,
-    }, {
-      value: 4,
-    }, {
-      value: 2,
-    }];
-    var sortedObjectArray = [{
-      value: 4,
-    }, {
-      value: 3,
-    }, {
-      value: 2,
-    }, {
-      value: 1,
-    }];
+    var objectArray = Utils.map(simpleArray, wrapInObject);
+    var sortedObjectArray = Utils.map(sortedSimpleArray,
+                                      wrapInObject);
+    sortedObjectArray.reverse();
 
     expect(Utils.sortBy(simpleArray, function(entry) {
       return entry;
@@ -120,5 +112,27 @@ describe('Utils tests', function () {
       return (-entry.value);
     })).toEqual(sortedObjectArray);
 
+  });
+
+
+  it('should provide `filter` as a function', function () {
+    expect(typeof Utils.extend).toBe('function');
+
+    var simpleArray = [true, false, 1, 0, 't', '', {key: 1}, {},
+                       [false], []];
+    var filteredSimpleArray = [true, 1, 't', {key: 1}, {}, [false],
+                               []];
+
+    var objectArray = Utils.map(simpleArray, wrapInObject);
+    var filteredObjectArray = Utils.map(filteredSimpleArray,
+                                        wrapInObject);
+
+    expect(Utils.filter(simpleArray, function(entry) {
+      return entry;
+    })).toEqual(filteredSimpleArray);
+
+    expect(Utils.filter(objectArray, function(entry) {
+      return entry.value;
+    })).toEqual(filteredObjectArray);
   });
 });

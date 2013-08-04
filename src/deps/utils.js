@@ -1,6 +1,8 @@
 'use strict';
 
-var Utils = {};
+var Utils = {},
+    ArrayProto = Array.prototype,
+    nativeFilter = ArrayProto.filter;
 
 /* Borrowing from underscore.js */
 /* TODO: Use lodash instead*/
@@ -64,4 +66,22 @@ Utils.sortBy = function(obj, iterator, context) {
   }), 'value');
 };
 
+Utils.filter = function(obj, iterator, context) {
+  var results = [];
+  if (obj === null || obj === undefined) {
+    return results;
+  }
+
+  if (nativeFilter && obj.filter === nativeFilter) {
+    return obj.filter(iterator, context);
+  }
+
+  each(obj, function(value, index, list) {
+    if (iterator.call(context, value, index, list)) {
+      results[results.length] = value;
+    }
+  });
+
+  return results;
+};
 /* Done borrowing from underscore.js */
