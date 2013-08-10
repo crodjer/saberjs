@@ -80,8 +80,45 @@ Saber.QuerySet = function QuerySet(source) {
     batchProcessor: true
   });
 
+  addAction('where', function filter(models, entries) {
+    function filterFunction (model) {
+      var valid = true, filter;
+
+      Utils.each(entries, function (entry) {
+        if (!valid || typeof entry[0] === 'undefined') {
+          valid = false;
+          return;
+        }
+
+        if (typeof entry[0] === 'object') {
+          filter = entry[0];
+        } else if (typeof entry[1] !== 'undefined') {
+          filter = {};
+          filter[entry[0]] = entry[1];
+        } else {
+          valid = false;
+          return;
+        }
+      });
+
+      for (var key in filter) {
+        if (filter.hasOwnProperty(key) && filter[key] !== model[key]) {
+          valid = false;
+          break;
+        }
+      }
+
+      return valid;
+    }
+
+    return Utils.filter(models, filterFunction);
+  }, {
+    batchProcessor: true
+  });
+
   var actionsExOrder = [
     'filter',
+    'where',
     'sort'
   ];
 

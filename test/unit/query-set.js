@@ -91,4 +91,46 @@ describe('data source', function () {
         });
     });
   });
+
+  it('should allow for filtering of data with where', function () {
+    var expected = Utils.filter(fixture.expected, function (model) {
+      return model.age === 23;
+    });
+
+    source.query(function (err, querySet) {
+      querySet.where({age: 23})
+        .execute(function (err, models) {
+          expect(models.length).toBe(expected.length);
+
+          Utils.each(models, function(model, index) {
+            expect(model).toEqual(expected[index]);
+          });
+        });
+    });
+
+    source.query(function (err, querySet) {
+      querySet.where('age', 23)
+        .execute(function (err, models) {
+          expect(models.length).toBe(expected.length);
+
+          Utils.each(models, function(model, index) {
+            expect(model).toEqual(expected[index]);
+          });
+        });
+    });
+
+    source.query(function (err, querySet) {
+      querySet.where()
+        .execute(function (err, models) {
+          expect(models.length).toBe(0);
+        });
+    });
+
+    source.query(function (err, querySet) {
+      querySet.where('age')
+        .execute(function (err, models) {
+          expect(models.length).toBe(0);
+        });
+    });
+  });
 });
