@@ -60,7 +60,28 @@ Saber.QuerySet = function QuerySet(source) {
     return Utils.sortBy(models, sortFunction);
   });
 
+  addAction('filter', function filter(models, entries) {
+    function filterFunction (model) {
+      var valid = true;
+
+      Utils.each(entries, function (entry) {
+        if (!valid) {
+          return;
+        }
+
+        valid = entry[0](model) || false;
+      });
+
+      return valid;
+    }
+
+    return Utils.filter(models, filterFunction);
+  }, {
+    batchProcessor: true
+  });
+
   var actionsExOrder = [
+    'filter',
     'sort'
   ];
 

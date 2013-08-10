@@ -72,4 +72,23 @@ describe('data source', function () {
       });
     });
   });
+
+  it('should allow for filtering of data', function () {
+    var filterFunction = function filterFunction(model) {
+      return model.age > 21;
+    };
+
+    var expected = Utils.filter(fixture.expected, filterFunction);
+
+    source.query(function (err, querySet) {
+      querySet.filter(filterFunction)
+        .execute(function (err, models) {
+          expect(models.length).toBe(expected.length);
+
+          Utils.each(models, function(model, index) {
+            expect(model).toEqual(expected[index]);
+          });
+        });
+    });
+  });
 });
