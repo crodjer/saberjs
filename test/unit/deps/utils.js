@@ -96,8 +96,10 @@ describe('Utils tests', function () {
   it('should provide `sortBy` as a function', function () {
     expect(typeof Utils.extend).toBe('function');
 
-    var simpleArray = [1, 6, 3, 5, 9, 7, 2, 4, 8];
-    var sortedSimpleArray = [1, 2, 3, 4, 5, 6, 7, 8, 9];
+    var simpleArray = [20, 45, 19, 48, 4, 25, 7, 39, 22, 3, 28, 17,
+                       10, 41, 45, 6, 3, 21, 9, 17];
+    var sortedSimpleArray = [3, 3, 4, 6, 7, 9, 10, 17, 17, 19, 20, 21,
+                             22, 25, 28, 39, 41, 45, 45, 48];
 
     var objectArray = Utils.map(simpleArray, wrapInObject);
     var sortedObjectArray = Utils.map(sortedSimpleArray,
@@ -127,12 +129,17 @@ describe('Utils tests', function () {
     var filteredObjectArray = Utils.map(filteredSimpleArray,
                                         wrapInObject);
 
-    expect(Utils.filter(simpleArray, function(entry) {
-      return entry;
-    })).toEqual(filteredSimpleArray);
+    Utils.map(['filter', 'fallbackFilter'], function (filterKey) {
+      expect(Utils[filterKey](simpleArray, function(entry) {
+        return entry;
+      })).toEqual(filteredSimpleArray);
 
-    expect(Utils.filter(objectArray, function(entry) {
-      return entry.value;
-    })).toEqual(filteredObjectArray);
+      expect(Utils[filterKey](objectArray, function(entry) {
+        return entry.value;
+      })).toEqual(filteredObjectArray);
+    });
+
+    expect(Utils.filter(null), []);
+    expect(Utils.filter(), []);
   });
 });

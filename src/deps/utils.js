@@ -66,6 +66,18 @@ Utils.sortBy = function(obj, iterator, context) {
   }), 'value');
 };
 
+Utils.fallbackFilter = function(obj, iterator, context) {
+  var results = [];
+
+  each(obj, function(value, index, list) {
+    if (iterator.call(context, value, index, list)) {
+      results[results.length] = value;
+    }
+  });
+
+  return results;
+};
+
 Utils.filter = function(obj, iterator, context) {
   var results = [];
   if (obj === null || obj === undefined) {
@@ -76,12 +88,6 @@ Utils.filter = function(obj, iterator, context) {
     return obj.filter(iterator, context);
   }
 
-  each(obj, function(value, index, list) {
-    if (iterator.call(context, value, index, list)) {
-      results[results.length] = value;
-    }
-  });
-
-  return results;
+  return Utils.fallbackFilter(obj, iterator, context);
 };
 /* Done borrowing from underscore.js */
