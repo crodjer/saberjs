@@ -4,14 +4,15 @@
   "description": "A JavaScript library to process data in the browser. Filter, sort, aggregate, group, and slice data. Data processing can switch seamlessly from server to client.",
   "devDependencies": {
     "grunt": "~0.4.1",
-    "grunt-contrib-jshint": "~0.6.0",
-    "grunt-karma": "~0.4.4",
     "grunt-contrib-uglify": "~0.2.2",
-    "grunt-contrib-watch": "~0.4.4",
+    "grunt-contrib-watch": "~0.5.3",
+    "grunt-contrib-jshint": "~0.6.4",
     "grunt-contrib-concat": "~0.3.0",
-    "grunt-istanbul": "~0.2.1",
-    "coveralls": "~2.0.12",
-    "grunt-shell": "~0.2.2"
+    "grunt-shell": "~0.3.1",
+    "grunt-karma": "~0.6.2",
+    "grunt-istanbul": "~0.2.2",
+    "coveralls": "~2.2.0",
+    "karma-coverage": "~0.1.0"
   },
   "scripts": {
     "test": "grunt test-travis && grunt shell:coveralls"
